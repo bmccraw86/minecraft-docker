@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          platforms: linux/amd64,linux/amd,linux/arm64,linux/arm
+          platforms: linux/amd64,linux/arm64/v8
           build-args: |
             - ACCEPT_EULA=true
             - RCON_PASS=${{ secrets.RCON_PASSWORD }}
