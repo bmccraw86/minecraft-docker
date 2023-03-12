@@ -46,8 +46,10 @@ jobs:
         with:
           push: true
           platforms: |
-            - linux/amd64
-            - linux/arm64
+            - amd64
+            - amd
+            - arm64
+            - arm
           build-args: |
             - ACCEPT_EULA=true
             - RCON_PASS=${{ secrets.RCON_PASSWORD }}
