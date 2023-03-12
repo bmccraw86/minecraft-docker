@@ -49,5 +49,4 @@ jobs:
           build-args: |
             - ACCEPT_EULA=true
             - RCON_PASS=${{ secrets.RCON_PASSWORD }}
-          tags: |
-            - ghcr.io/bmccraw86/minecraft:latest
+          tags: ghcr.io/bmccraw86/minecraft:latest
