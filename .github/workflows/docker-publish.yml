@@ -46,5 +46,7 @@ jobs:
         with:
           push: true
           platform: linux/amd64,linux/arm64
-          build-args: ACCEPT_EULA=true,RCON_PASS=${{ secrets.RCON_PASSWORD }}
+          build-args: |
+            - ACCEPT_EULA=true
+            - RCON_PASS=${{ secrets.RCON_PASSWORD }}
           tags: ghcr.io/bmccraw86/minecraft:latest
