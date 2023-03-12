@@ -45,8 +45,11 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          platform: linux/amd64,linux/arm64
+          platforms: |
+            - linux/amd64
+            - linux/arm64
           build-args: |
             - ACCEPT_EULA=true
             - RCON_PASS=${{ secrets.RCON_PASSWORD }}
-          tags: ghcr.io/bmccraw86/minecraft:latest
+          tags: |
+            - ghcr.io/bmccraw86/minecraft:latest
