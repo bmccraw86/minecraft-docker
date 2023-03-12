@@ -8,7 +8,7 @@ fail() {
     exit 1
 }
 
-export MC_JAR="/opt/minecraft/$(ls minecraft-server\.*\.jar)"
+export MC_JAR="/opt/minecraft/$(ls minecraft_server\.*\.jar)"
 
 echo "Starting minecraft server"
 java ${JAVA_ARGS} -jar "${MC_JAR}" nogui || fail "failed to start $MC_JAR"

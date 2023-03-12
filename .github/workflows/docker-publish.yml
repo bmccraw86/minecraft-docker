@@ -26,33 +26,24 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Setup buildx
+        uses: docker/setup-buildx-action@v2
+      - name: setup qemu
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: 'arm64,arm,amd64,amd'
 
-      - name: Log into GitHub Container Registry
-      # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
-        run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
 
-      - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME --build-arg=ACCEPT_EULA=true --build-arg=RCON_PASS=${{ secrets.RCON_PASSWORD }}
-
-      - name: Push image to GitHub Container Registry
-        run: |
-          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
-
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
-
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+      - name: Build and Push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          platform: linux/amd64,linux/arm64
+          build-args: ACCEPT_EULA=true,RCON_PASS=${{ secrets.RCON_PASSWORD }}
+          tags: ghcr.io/bmccraw86/minecraft:latest
