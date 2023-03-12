@@ -19,7 +19,7 @@ COPY --chown=minecraft:minecraft . /opt/minecraft/
 RUN sed -i "/^rcon\.password/s/CHANGEME/${RCON_PW}/" /opt/minecraft/server.properties || exit 1
 
 USER minecraft
-RUN java -jar $MC_JAR nogui || true
 RUN test "$ACCEPTED_EULA" = "true"  && sed -i 's/eula=false/eula=true/' eula.txt || exit 1
+RUN java -jar $MC_JAR nogui || true
 EXPOSE 25565 25575
 CMD [ "/opt/minecraft/bin/start_minecraft.sh" ]
