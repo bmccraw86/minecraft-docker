@@ -1,12 +1,12 @@
 FROM openjdk:18-bullseye
-LABEL maintainer="matt.raspberry@gmail.com"
+LABEL maintainer="brandon@mccraw.me"
 ARG ACCEPT_EULA
 ARG RCON_PASS
 ENV RCON_PW=$RCON_PASS
 ENV ACCEPTED_EULA=$ACCEPT_EULA
-ENV MC_URL="https://launcher.mojang.com/v1/objects/125e5adf40c659fd3bce3e66e67a16bb49ecc1b9/server.jar"
-ENV MC_JAR="/opt/minecraft/minecraft-server.1.18.1.jar"
-ENV JAVA_ARGS="-Xmx2048M"
+ENV MC_URL="https://piston-data.mojang.com/v1/objects/c9df48efed58511cdd0213c56b9013a7b5c9ac1f/server.jar"
+ENV MC_JAR="/opt/minecraft/minecraft_server.1.19.3.jar"
+ENV JAVA_ARGS="-Xmx1024M -Xms1024M"
 WORKDIR /opt/minecraft
 
 RUN addgroup --system minecraft && adduser --system --ingroup minecraft minecraft && \
